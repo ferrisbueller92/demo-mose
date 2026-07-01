@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MOSE — the dose you never miss</title>
+<meta name="description" content="MOSE is a daily functional creatine ritual in a drinkable test tube. Prime the morning, drive the day, settle the night. Never miss a dose again.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14192b; --ink-soft:#5a6178; --paper:#fbfaf6;
+  --blue:#2f6fd6; --blue-ink:#1b4a97;
+  --yellow:#d6a32f; --yellow-hot:#f4b833;
+  --violet:#6b54c7; --teal:#0e6b6b;
+  --mint:#d7f2ec; --peach:#ffe3cf; --lilac:#ece4fb; --sky:#dcebff; --blush:#ffe0ef; --butter:#fff2cc;
+  --r:26px;
+  --edge:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Space Grotesk",system-ui,sans-serif; font-weight:400;
+  -webkit-font-smoothing:antialiased; line-height:1.5; overflow-x:hidden;
+}
+.mono{font-family:"Space Mono",monospace}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:var(--edge)}
+.kick{font-family:"Space Mono",monospace;text-transform:uppercase;letter-spacing:.28em;font-size:.72rem;color:var(--ink-soft)}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(12px);
+  background:rgba(251,250,246,.72);border-bottom:1px solid rgba(20,25,43,.07)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{font-weight:700;font-size:1.35rem;letter-spacing:.02em;display:flex;align-items:center;gap:.42rem}
+.brand .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--blue);display:inline-block;transform:translateY(1px)}
+.navlinks{display:flex;gap:2rem;align-items:center}
+.navlinks a{font-size:.92rem;color:var(--ink-soft);transition:color .2s}
+.navlinks a:hover{color:var(--ink)}
+.navbtn{background:var(--ink);color:var(--paper);padding:.55rem 1.1rem;border-radius:100px;font-size:.9rem;font-weight:500}
+.navbtn:hover{color:var(--paper);opacity:.9}
+@media(max-width:720px){.navlinks a:not(.navbtn){display:none}}
+
+/* ---------- blobs ---------- */
+.blob{position:absolute;border-radius:50%;filter:blur(6px);opacity:.9;z-index:0;pointer-events:none}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;padding:clamp(40px,7vw,90px) 0 clamp(56px,8vw,100px)}
+.hero-bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(70% 90% at 12% 8%, var(--mint) 0%, transparent 55%),
+  radial-gradient(60% 80% at 92% 20%, var(--sky) 0%, transparent 55%),
+  radial-gradient(70% 70% at 80% 100%, var(--blush) 0%, transparent 55%);}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,4vw,56px);align-items:center;min-height:min(78vh,660px)}
+@media(max-width:900px){.hero .wrap{grid-template-columns:1fr;text-align:center}}
+
+.pretag{display:inline-flex;align-items:center;gap:.5rem;background:#fff;border:1px solid rgba(20,25,43,.1);
+  padding:.4rem .85rem;border-radius:100px;font-size:.74rem;box-shadow:0 6px 20px rgba(20,25,43,.06)}
+.pretag b{color:var(--blue)}
+
+/* kinetic type */
+.kinetic-shell{margin:1.1rem 0 .2rem}
+.klead{font-family:"Space Mono",monospace;text-transform:uppercase;letter-spacing:.22em;
+  font-size:clamp(.7rem,1.6vw,.86rem);color:var(--ink-soft);margin-bottom:.35rem}
+.kinetic{font-weight:700;line-height:.98;font-size:clamp(2.4rem,8vw,5.2rem);letter-spacing:-.01em;
+  display:flex;width:fit-content;max-width:100%;flex-wrap:nowrap;cursor:pointer;user-select:none;white-space:pre}
+.ltr{display:inline-block;transition:opacity .45s ease,transform .55s cubic-bezier(.6,0,.4,1),filter .5s ease}
+.drop{color:#8b91a5}
+.keep{color:var(--blue)}
+.gap{width:.34em;display:inline-block;transition:width .5s ease}
+.falling .drop{opacity:0;transform:translateY(.55em) rotate(7deg);filter:blur(5px)}
+.gone .drop{display:none}
+.gone .gap{width:0}
+.kinetic.done .keep{color:var(--ink)}
+.kinetic.done .keep:nth-child(9){color:var(--blue)} /* the O stays brand blue as a wink */
+.replay{font-family:"Space Mono",monospace;font-size:.7rem;color:var(--ink-soft);opacity:.6;margin-top:.5rem;
+  display:inline-flex;align-items:center;gap:.4rem}
+.replay:hover{opacity:1}
+
+.tagline{font-size:clamp(1.15rem,2.4vw,1.55rem);font-weight:500;margin:.4rem 0 .1rem}
+.sub{color:var(--ink-soft);font-size:clamp(1rem,1.6vw,1.08rem);max-width:34ch;margin:.6rem 0 1.5rem}
+@media(max-width:900px){.sub{margin-inline:auto}.kinetic{margin-inline:auto}.replay{justify-content:center}}
+.cta-row{display:flex;gap:.7rem;flex-wrap:wrap}
+@media(max-width:900px){.cta-row{justify-content:center}}
+.btn{border:none;cursor:pointer;font-family:inherit;font-weight:600;font-size:1rem;
+  padding:.9rem 1.5rem;border-radius:100px;transition:transform .15s ease,box-shadow .2s ease}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 12px 30px rgba(47,111,214,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(47,111,214,.45)}
+.btn-ghost{background:#fff;color:var(--ink);border:1px solid rgba(20,25,43,.14)}
+.btn-ghost:hover{transform:translateY(-2px)}
+
+.hero-tube{position:relative;justify-self:center;align-self:center}
+.hero-tube img{width:min(320px,72vw);height:auto;max-height:60vh;object-fit:contain;border-radius:22px;box-shadow:0 30px 60px rgba(20,25,43,.22);animation:bob 6s ease-in-out infinite}
+.hero-tube .halo{position:absolute;inset:-8% -12%;background:radial-gradient(circle,rgba(47,111,214,.22),transparent 68%);z-index:-1;filter:blur(10px)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+/* ---------- statement band ---------- */
+.statement{background:var(--ink);color:var(--paper);padding:clamp(56px,9vw,110px) 0;position:relative;overflow:hidden}
+.statement h2{font-size:clamp(1.9rem,4.6vw,3.4rem);font-weight:600;line-height:1.08;max-width:18ch;margin:0}
+.statement h2 em{font-style:normal;color:var(--yellow-hot)}
+.statement p{color:#aeb4c7;max-width:46ch;margin:1.3rem 0 0;font-size:1.08rem}
+.statement .kick{color:#7f869e;margin-bottom:1.1rem}
+
+/* ---------- system ---------- */
+.section{padding:clamp(60px,9vw,120px) 0;position:relative}
+.section-head{max-width:52ch;margin-bottom:clamp(28px,4vw,52px)}
+.section-head h2{font-size:clamp(1.8rem,4.4vw,3rem);font-weight:600;line-height:1.06;margin:.5rem 0 0;letter-spacing:-.01em}
+.section-head p{color:var(--ink-soft);font-size:1.08rem;margin:1rem 0 0}
+
+.system-img{border-radius:var(--r);overflow:hidden;box-shadow:0 26px 60px rgba(20,25,43,.16);margin-bottom:clamp(24px,4vw,44px)}
+.skus{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,22px)}
+@media(max-width:820px){.skus{grid-template-columns:1fr}}
+.sku{border-radius:var(--r);padding:clamp(22px,3vw,30px);position:relative;overflow:hidden;
+  border:1px solid rgba(20,25,43,.08);min-height:230px;display:flex;flex-direction:column}
+.sku.prime{background:linear-gradient(160deg,var(--sky),#eff5ff)}
+.sku.drive{background:linear-gradient(160deg,var(--butter),#fff9e8)}
+.sku.settle{background:linear-gradient(160deg,var(--lilac),#f6f2ff)}
+.sku .tp{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.4rem}
+.sku .name{font-weight:700;font-size:1.5rem;letter-spacing:.01em}
+.sku.prime .name{color:var(--blue-ink)} .sku.drive .name{color:#a9781a} .sku.settle .name{color:var(--violet)}
+.sku .when{font-family:"Space Mono",monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.16em;
+  padding:.3rem .6rem;border-radius:100px;background:rgba(255,255,255,.7);color:var(--ink-soft)}
+.sku .role{font-size:1.15rem;font-weight:500;margin-bottom:.9rem}
+.sku dl{margin:auto 0 0;display:grid;gap:.5rem}
+.sku dl div{display:flex;justify-content:space-between;gap:1rem;font-size:.9rem;
+  padding-top:.55rem;border-top:1px dashed rgba(20,25,43,.15)}
+.sku dt{color:var(--ink-soft)} .sku dd{margin:0;font-weight:500;text-align:right}
+.sku .chip{position:absolute;top:0;right:0;width:80px;height:80px;border-radius:0 0 0 100%;opacity:.25}
+.sku.prime .chip{background:var(--blue)} .sku.drive .chip{background:var(--yellow-hot)} .sku.settle .chip{background:var(--violet)}
+
+/* ---------- how ---------- */
+.how{background:linear-gradient(180deg,#fff,var(--mint))}
+.how .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,5vw,64px);align-items:center}
+@media(max-width:860px){.how .grid{grid-template-columns:1fr}}
+.how-img img{width:min(300px,70vw);margin:0 auto;border-radius:22px;box-shadow:0 24px 54px rgba(14,107,107,.2)}
+.steps{display:grid;gap:1.4rem;counter-reset:s}
+.step{display:flex;gap:1.1rem;align-items:flex-start}
+.step .n{counter-increment:s;flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;
+  display:grid;place-items:center;font-weight:700;font-family:"Space Mono",monospace}
+.step .n::before{content:counter(s)}
+.step h3{margin:.2rem 0 .25rem;font-size:1.25rem;font-weight:600}
+.step p{margin:0;color:var(--ink-soft)}
+
+/* ---------- clean label ---------- */
+.clean{text-align:center}
+.chips{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:2rem}
+.chips span{background:#fff;border:1px solid rgba(20,25,43,.1);border-radius:100px;padding:.7rem 1.25rem;
+  font-weight:500;font-size:.98rem;box-shadow:0 6px 18px rgba(20,25,43,.05)}
+.chips span::before{content:"✓";color:var(--teal);font-weight:700;margin-right:.5rem}
+
+/* ---------- waitlist ---------- */
+.join{background:var(--blue);color:#fff;position:relative;overflow:hidden}
+.join .wrap{position:relative;z-index:2;text-align:center;padding-block:clamp(56px,9vw,110px)}
+.join h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:600;line-height:1.05;margin:.4rem auto 0;max-width:16ch}
+.join p{color:#dbe7fb;max-width:44ch;margin:1.1rem auto 2rem;font-size:1.08rem}
+.join .kick{color:#bcd2f6}
+.wl{display:flex;gap:.5rem;max-width:460px;margin:0 auto;background:#fff;border-radius:100px;padding:.4rem;
+  box-shadow:0 18px 40px rgba(0,0,0,.2)}
+.wl input{flex:1;border:none;outline:none;background:transparent;font-family:inherit;font-size:1rem;padding:.6rem 1rem;color:var(--ink)}
+.wl button{border:none;cursor:pointer;background:var(--ink);color:#fff;font-family:inherit;font-weight:600;
+  padding:.75rem 1.4rem;border-radius:100px;font-size:.98rem;transition:transform .15s}
+.wl button:hover{transform:scale(1.03)}
+.wl-note{font-size:.8rem;color:#bcd2f6;margin-top:1rem;font-family:"Space Mono",monospace}
+.wl-done{display:none;font-size:1.25rem;font-weight:600;background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.3);border-radius:100px;padding:.9rem 1.6rem;max-width:460px;margin:0 auto}
+.wl-done.show{display:block;animation:pop .4s ease}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:#8990a6;padding:clamp(40px,6vw,70px) 0 3rem}
+footer .top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:2rem;align-items:flex-start}
+footer .brand{color:#fff;font-size:1.5rem}
+footer .brand .dot{background:var(--yellow-hot)}
+footer .ftag{color:#c9cede;font-size:1.1rem;font-weight:500;margin-top:.5rem;max-width:22ch}
+footer .cols{display:flex;gap:3rem;flex-wrap:wrap}
+footer .cols div{display:grid;gap:.6rem}
+footer .cols b{color:#fff;font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;font-family:"Space Mono",monospace;font-weight:400}
+footer .cols a{color:#8990a6;font-size:.95rem}
+footer .cols a:hover{color:#fff}
+footer .fine{margin-top:clamp(30px,5vw,54px);padding-top:1.6rem;border-top:1px solid rgba(255,255,255,.1);
+  font-size:.78rem;color:#6a7189;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.stamp{font-family:"Space Mono",monospace}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">MOSE<span class="dot"></span></a>
+    <div class="navlinks">
+      <a href="#system">The System</a>
+      <a href="#how">How it works</a>
+      <a href="#join" class="navbtn">Join the waitlist</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-bg"></div>
+  <span class="blob" style="width:120px;height:120px;background:var(--yellow-hot);top:14%;left:6%;opacity:.5"></span>
+  <span class="blob" style="width:80px;height:80px;background:var(--violet);top:70%;left:44%;opacity:.4"></span>
+  <span class="blob" style="width:150px;height:150px;background:var(--teal);top:8%;right:10%;opacity:.25"></span>
+  <div class="wrap">
+    <div>
+      <span class="pretag mono">A daily ritual, not another tub · <b>concept</b></span>
+      <div class="kinetic-shell">
+        <div class="klead">Have you had a…</div>
+        <div class="kinetic" id="kinetic" role="img" aria-label="Missed dose becomes MOSE">
+          <span class="ltr keep">M</span><span class="ltr drop">I</span><span class="ltr drop">S</span><span class="ltr drop">S</span><span class="ltr drop">E</span><span class="ltr drop">D</span><span class="gap"> </span><span class="ltr drop">D</span><span class="ltr keep">O</span><span class="ltr keep">S</span><span class="ltr keep">E</span>
+        </div>
+        <div class="replay mono" id="replay">↻ replay</div>
+      </div>
+      <p class="tagline">The dose you never miss.</p>
+      <p class="sub">A functional creatine ritual in a drinkable test tube — three tuned formulas that carry you from the first light to lights out.</p>
+      <div class="cta-row">
+        <a href="#join"><button class="btn btn-primary">Join the waitlist</button></a>
+        <a href="#system"><button class="btn btn-ghost">See the system</button></a>
+      </div>
+    </div>
+    <div class="hero-tube">
+      <span class="halo"></span>
+      <img src="assets/hero-tube.jpg" alt="MOSE drinkable test tube with a cork stopper, blue formula" width="1100" height="1640" fetchpriority="high">
+    </div>
+  </div>
+</header>
+
+<section class="statement">
+  <div class="wrap">
+    <p class="kick">The whole problem, in two words</p>
+    <h2>The only dose that counts against you is the <em>one you miss.</em></h2>
+    <p>Powders clump. Tubs get forgotten. Routines quietly fall apart. MOSE turns your daily dose into a single, satisfying moment you actually look forward to — so missing it stops being an option.</p>
+  </div>
+</section>
+
+<section class="section" id="system">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="kick">Three tuned formulas</p>
+      <h2>One system for the whole day.</h2>
+      <p>Each MOSE is dosed for a moment in your day. Twist, drink, done — colour-coded so you always know which one you're on.</p>
+    </div>
+    <div class="system-img">
+      <img src="assets/system.jpg" alt="Three MOSE test tubes — blue, yellow and violet — the full daily system" width="1600" height="1073" loading="lazy">
+    </div>
+    <div class="skus">
+      <article class="sku prime">
+        <span class="chip"></span>
+        <div class="tp"><span class="name">PRIME</span><span class="when">AM · sunrise</span></div>
+        <p class="role">Wake the system up.</p>
+        <dl>
+          <div><dt>Actives</dt><dd>Creatine + electrolytes</dd></div>
+          <div><dt>Flavour</dt><dd>Coconut &amp; Lime</dd></div>
+        </dl>
+      </article>
+      <article class="sku drive">
+        <span class="chip"></span>
+        <div class="tp"><span class="name">DRIVE</span><span class="when">Midday · momentum</span></div>
+        <p class="role">Hold the line.</p>
+        <dl>
+          <div><dt>Actives</dt><dd>Creatine + aminos</dd></div>
+          <div><dt>Flavour</dt><dd>Mango &amp; Passionfruit</dd></div>
+        </dl>
+      </article>
+      <article class="sku settle">
+        <span class="chip"></span>
+        <div class="tp"><span class="name">SETTLE</span><span class="when">PM · wind-down</span></div>
+        <p class="role">Land the day.</p>
+        <dl>
+          <div><dt>Actives</dt><dd>Magnesium glycinate</dd></div>
+          <div><dt>Flavour</dt><dd>Blackcurrant &amp; Berry</dd></div>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section how" id="how">
+  <div class="wrap grid">
+    <div class="how-img">
+      <img src="assets/tube-blob.jpg" alt="A single MOSE test tube, cork stopper, on a playful backdrop" width="1000" height="1491" loading="lazy">
+    </div>
+    <div>
+      <div class="section-head" style="margin-bottom:2rem">
+        <p class="kick">The format</p>
+        <h2>The whole dose. In one twist.</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="n"></span><div><h3>Twist the cap</h3><p>The active cap holds the dry dose, sealed and stable until the second you want it.</p></div></div>
+        <div class="step"><span class="n"></span><div><h3>Watch it drop</h3><p>One twist releases the dose into the water. It swirls, it colours, it's alive — the ritual you don't want to skip.</p></div></div>
+        <div class="step"><span class="n"></span><div><h3>Drink it down</h3><p>Cold, clean, full-strength. No shaker, no clumps, no leftover scoop. Just the dose — done.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section clean">
+  <div class="wrap">
+    <div class="section-head" style="margin-inline:auto">
+      <p class="kick">What's inside — and what isn't</p>
+      <h2>Clean label, all the way down.</h2>
+    </div>
+    <div class="chips">
+      <span>Sugar-free</span>
+      <span>Vegan</span>
+      <span>No artificial colours</span>
+      <span>No clumps, no scoops</span>
+      <span>Dosed, not guessed</span>
+    </div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <span class="blob" style="width:140px;height:140px;background:var(--yellow-hot);top:16%;left:8%;opacity:.5"></span>
+  <span class="blob" style="width:110px;height:110px;background:var(--violet);bottom:12%;right:12%;opacity:.5"></span>
+  <div class="wrap">
+    <p class="kick">The founding batch · be first in line</p>
+    <h2>Be first to never Mose again.</h2>
+    <p>Join the waitlist for launch pricing, the founding-batch drop, and a say in the next flavour.</p>
+    <form class="wl" id="wl">
+      <input type="email" id="wl-email" placeholder="you@email.com" aria-label="Email address" required>
+      <button type="submit">Join</button>
+    </form>
+    <div class="wl-done" id="wl-done">You're on the list ✦ Welcome to MOSE.</div>
+    <p class="wl-note">No spam. Just the drop. Concept demo — emails aren't stored anywhere real.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="brand">MOSE<span class="dot"></span></div>
+        <p class="ftag">The dose you never miss.</p>
+      </div>
+      <div class="cols">
+        <div>
+          <b>System</b>
+          <a href="#system">Prime</a>
+          <a href="#system">Drive</a>
+          <a href="#system">Settle</a>
+        </div>
+        <div>
+          <b>More</b>
+          <a href="#how">How it works</a>
+          <a href="#join">Waitlist</a>
+        </div>
+      </div>
+    </div>
+    <div class="fine">
+      <span>MOSE · A functional daily ritual.</span>
+      <span class="stamp">Concept demo · Last updated: 2026-07-01 20:31 AEST</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var kin=document.getElementById('kinetic');
+  var keepers=[].slice.call(kin.querySelectorAll('.keep'));
+  var drops=[].slice.call(kin.querySelectorAll('.drop'));
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  drops.forEach(function(d,i){d.style.transitionDelay=(i*0.035)+'s';});
+  var timer=null;
+
+  function collapse(){
+    kin.classList.add('falling');
+    setTimeout(function(){
+      var first=keepers.map(function(e){return e.getBoundingClientRect();});
+      kin.classList.add('gone');                    // reflow now -> keepers close up
+      var last=keepers.map(function(e){return e.getBoundingClientRect();});
+      keepers.forEach(function(el,i){
+        var dx=first[i].left-last[i].left;
+        el.style.transition='none';
+        el.style.transform='translateX('+dx+'px)';
+      });
+      requestAnimationFrame(function(){requestAnimationFrame(function(){
+        keepers.forEach(function(el){
+          el.style.transition='transform .68s cubic-bezier(.2,.85,.25,1)';
+          el.style.transform='translateX(0)';
+        });
+        kin.classList.add('done');
+      });});
+    },700);
+  }
+  function reset(){
+    kin.classList.remove('falling','gone','done');
+    keepers.forEach(function(el){el.style.transition='none';el.style.transform='';});
+  }
+  function cycle(){
+    reset();
+    requestAnimationFrame(function(){requestAnimationFrame(function(){setTimeout(collapse,1500);});});
+  }
+  if(reduce){ kin.classList.add('gone','done'); }
+  else {
+    cycle();
+    timer=setInterval(cycle,8000);
+    function replayNow(){clearInterval(timer);cycle();timer=setInterval(cycle,8000);}
+    kin.addEventListener('click',replayNow);
+    document.getElementById('replay').addEventListener('click',replayNow);
+  }
+
+  // decorative waitlist
+  var wl=document.getElementById('wl');
+  wl.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=document.getElementById('wl-email').value.trim();
+    if(!email) return;
+    try{
+      var list=JSON.parse(localStorage.getItem('mose_waitlist')||'[]');
+      list.push({email:email,ts:Date.now()});
+      localStorage.setItem('mose_waitlist',JSON.stringify(list));
+    }catch(_){}
+    wl.style.display='none';
+    document.getElementById('wl-done').classList.add('show');
+  });
+})();
+</script>
+</body>
+</html>

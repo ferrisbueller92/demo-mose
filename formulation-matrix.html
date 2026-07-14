@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MOSE — Formulation & flavour compatibility</title>
+<meta name="description" content="Working document: flavour × liquid-base × electrolyte compatibility for the MOSE dry-cap vial. Decisions to lock, chemistry that's confirmed, and the flavour matrix.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🧪</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14192b; --ink-soft:#5a6178; --paper:#fbfaf6; --card:#fff;
+  --blue:#2f6fd6; --blue-ink:#1b4a97;
+  --yellow:#d6a32f; --yellow-hot:#f4b833;
+  --violet:#6b54c7; --teal:#0e6b6b;
+  --mint:#d7f2ec; --lilac:#ece4fb; --sky:#dcebff; --butter:#fff2cc;
+  --red:#c0392b; --red-bg:#fdeceb; --amber:#a9781a; --amber-bg:#fff5e0; --green:#1a8f4d; --green-bg:#e6f6ec;
+  --line:rgba(20,25,43,.1);
+  --r:20px; --edge:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Space Grotesk",system-ui,sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.mono{font-family:"Space Mono",monospace}
+a{color:var(--blue)}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:var(--edge)}
+.kick{font-family:"Space Mono",monospace;text-transform:uppercase;letter-spacing:.24em;font-size:.7rem;color:var(--ink-soft)}
+
+/* hero */
+header.top{background:var(--ink);color:var(--paper);padding:clamp(44px,7vw,80px) 0 clamp(40px,6vw,64px);position:relative;overflow:hidden}
+header.top .blob{position:absolute;border-radius:50%;filter:blur(50px);opacity:.35;pointer-events:none}
+header.top .brand{font-weight:700;font-size:1.2rem;letter-spacing:.02em;display:flex;align-items:center;gap:.4rem;margin-bottom:1.6rem}
+header.top .brand .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--yellow-hot)}
+header.top h1{font-size:clamp(1.9rem,4.6vw,3.1rem);font-weight:600;line-height:1.08;margin:.4rem 0 0;max-width:20ch}
+header.top p{color:#aeb4c7;max-width:60ch;margin:1.1rem 0 0;font-size:1.05rem}
+header.top .meta{margin-top:1.6rem;font-size:.76rem;color:#7f869e;display:flex;gap:1.4rem;flex-wrap:wrap}
+
+section{padding:clamp(40px,6vw,68px) 0}
+section.alt{background:linear-gradient(180deg,#fff,var(--mint))}
+h2{font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:600;line-height:1.1;margin:0 0 .3rem}
+h2 + .lead{color:var(--ink-soft);font-size:1.05rem;margin:0 0 1.8rem;max-width:64ch}
+h3{font-size:1.15rem;font-weight:600;margin:0 0 .4rem}
+
+/* decision cards */
+.decisions{display:grid;gap:16px}
+.dec{background:var(--card);border:1px solid var(--line);border-left-width:5px;border-radius:var(--r);padding:22px 24px;box-shadow:0 12px 30px rgba(20,25,43,.05)}
+.dec.crit{border-left-color:var(--red)} .dec.watch{border-left-color:var(--yellow-hot)} .dec.ok{border-left-color:var(--green)}
+.dec .tag{display:inline-block;font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 10px;border-radius:100px;margin-bottom:.7rem;font-weight:700}
+.dec.crit .tag{background:var(--red-bg);color:var(--red)} .dec.watch .tag{background:var(--amber-bg);color:var(--amber)} .dec.ok .tag{background:var(--green-bg);color:var(--green)}
+.dec h3{margin-bottom:.5rem}
+.dec p{margin:0 0 .6rem;color:var(--ink-soft);font-size:.95rem}
+.dec p:last-child{margin-bottom:0}
+.dec .rec{color:var(--ink);font-weight:500}
+.dec .rec b{color:var(--blue-ink)}
+
+/* generic prose cards */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px}
+.card h3{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.card .verdict{font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:100px;white-space:nowrap}
+.v-yes{background:var(--green-bg);color:var(--green)} .v-no{background:var(--red-bg);color:var(--red)} .v-care{background:var(--amber-bg);color:var(--amber)}
+.card p{margin:.4rem 0 0;color:var(--ink-soft);font-size:.93rem}
+.card ul{margin:.5rem 0 0;padding-left:1.1rem;color:var(--ink-soft);font-size:.93rem}
+.card li{margin:.3rem 0}
+
+/* matrix table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:.86rem}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:"Space Mono",monospace;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);background:var(--paper);position:sticky;top:0}
+tbody tr:last-child td{border-bottom:none}
+tr.spec{background:#f5f8ff}
+td .flav{font-weight:600;color:var(--ink)}
+.pow{font-family:"Space Mono",monospace;font-weight:700}
+.pow-5{color:var(--green)} .pow-4{color:var(--green)} .pow-3{color:var(--amber)} .pow-2{color:var(--red)}
+.pill-mini{display:inline-block;font-size:.7rem;font-weight:600;padding:1px 8px;border-radius:100px;background:var(--sky);color:var(--blue-ink)}
+
+/* science list */
+.sci{display:grid;gap:14px}
+.sci .row{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 22px}
+.sci .row h3{font-size:1.02rem;margin-bottom:.3rem}
+.sci .row p{margin:0;color:var(--ink-soft);font-size:.92rem}
+.sci .row .num{font-variant-numeric:tabular-nums;font-weight:600;color:var(--blue-ink)}
+
+.note{font-size:.82rem;color:var(--ink-soft);background:var(--butter);border-radius:14px;padding:14px 18px;margin-top:1.4rem;line-height:1.55}
+footer{background:var(--ink);color:#8990a6;padding:clamp(34px,5vw,54px) 0;font-size:.82rem}
+footer .brand{color:#fff;font-size:1.2rem;font-weight:700}
+footer .brand .dot{color:var(--yellow-hot)}
+footer .fine{margin-top:1rem;font-size:.72rem;color:#6a7189;line-height:1.6;max-width:90ch}
+footer a{color:#bcd2f6}
+.src{font-size:.76rem;color:var(--ink-soft);columns:2;column-gap:32px}
+@media(max-width:640px){.src{columns:1}}
+.src a{display:block;margin-bottom:.5rem;break-inside:avoid}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <span class="blob" style="width:260px;height:260px;background:var(--blue);top:-40px;right:-30px"></span>
+  <span class="blob" style="width:180px;height:180px;background:var(--violet);bottom:-60px;left:20%"></span>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="brand">MOSE<span class="dot"></span></div>
+    <p class="kick">Working document · formulation</p>
+    <h1>Flavour, base &amp; electrolyte compatibility.</h1>
+    <p>The next piece of the build-together list: which liquid bases work in a small dry-cap vial, what the mix-moment chemistry actually does, and how the ten candidate flavours map to the three dayparts. Research-backed — every non-obvious claim is sourced at the foot of the page.</p>
+    <div class="meta mono">
+      <span>Slovenia / EU launch</span>
+      <span>Dry-cap format · ~60–100 ml</span>
+      <span>Last updated 2026-07-14 AEST</span>
+    </div>
+  </div>
+</header>
+
+<!-- DECISIONS FIRST -->
+<section>
+  <div class="wrap">
+    <h2>Five calls to make before formulas lock</h2>
+    <p class="lead">These are the decisions the research surfaced that change the recipe — worth resolving with William (and, where noted, a food-safety/regulatory consult) before a co-packer quotes anything.</p>
+    <div class="decisions">
+
+      <div class="dec crit">
+        <span class="tag">Highest-severity flag</span>
+        <h3>PRIME's sodium is 4.5–10× a normal sports drink — per millilitre</h3>
+        <p>Typical sports drinks carry ~40–85 mg sodium per 100 ml. PRIME's ~400 mg in a 60–100 ml vial lands at roughly 400–650 mg per 100 ml. At that concentration the taste stops being "salty" and tips into harsh/metallic (it starts triggering irritation pathways, not just intensity), and flavour masking alone won't fully hide it.</p>
+        <p class="rec">Recommendation: <b>pick one</b> — lower the sodium target toward a normal electrolyte dose, switch to sodium <b>citrate</b> (milder, doubles as a natural acidulant), or deliberately own a savoury/electrolyte-forward taste for PRIME rather than selling it as a fruity shot.</p>
+      </div>
+
+      <div class="dec crit">
+        <span class="tag">Compliance-critical</span>
+        <h3>SETTLE's lavender must be aroma-level, not "Silexan-grade"</h3>
+        <p>Silexan is a registered <em>pharmaceutical</em> lavender extract (80 mg/day for anxiety, a medicinal product in Germany). EU borderline-product law classifies by "minimal therapeutic dose" — use Silexan-grade material at anything near its therapeutic level in a drink and you invite a medicinal-product classification fight, the same trap melatonin already set for SETTLE.</p>
+        <p class="rec">Recommendation: resolve the brief's "Silexan-grade OR aroma" phrasing <b>in favour of aroma-only</b> — a food-grade lavender flavour at ppm levels. Confirm the exact level with a toxicology/regulatory consult, not just a taste panel.</p>
+      </div>
+
+      <div class="dec watch">
+        <span class="tag">Sweetener system</span>
+        <h3>Monk fruit is out for the EU launch</h3>
+        <p>Confirmed still not broadly authorised in the EU as of 2026 — one narrow aqueous-extract approval (Oct 2024), with a wider food-additive application still mid-EFSA-assessment (public consultation opened April 2026). A pending assessment is not a legal authorisation.</p>
+        <p class="rec">Recommendation: design the sweetness around <b>steviol glycosides + thaumatin</b> (thaumatin actively masks the bitter/metallic notes of caffeine, EAAs and magnesium — it isn't just a sweetener), with erythritol optional but note the &gt;10% laxative-warning label rule.</p>
+      </div>
+
+      <div class="dec ok">
+        <span class="tag">Confirmed safe</span>
+        <h3>The dry-cap mix-moment chemistry holds up</h3>
+        <p>Creatine degrades to creatinine only over <em>days</em> at citrus pH (21% over 3 days at pH 3.5) — over a 30–60 minute drink window that's under 0.01%. The freshness story is real: the risk is a vial sitting mixed for days, which the format prevents by design.</p>
+        <p class="rec">One caveat to design for: 3 g creatine <b>won't fully dissolve</b> in ~100 ml (it needs ~225 ml). Micronised creatine + a co-processed carrier gives a <b>cloudy-but-not-gritty</b> drink — spec the mouthfeel/visual around a slightly milky pour, engineer against sandy sediment.</p>
+      </div>
+
+      <div class="dec ok">
+        <span class="tag">Format lock</span>
+        <h3>Still base only — never sparkling</h3>
+        <p>Dropping dry powder into a sealed carbonated vial and then shaking it is close to a worst-case geyser setup: the powder multiplies nucleation sites and the CO₂ erupts the instant the cap opens. This isn't a maybe — it's the mechanism behind the Mentos-and-cola effect.</p>
+        <p class="rec">Recommendation: <b>every SKU is a still base.</b> If a sparkling line is ever wanted, it needs a completely different (pre-mixed, no-shake) mechanic.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MATRIX -->
+<section class="alt">
+  <div class="wrap">
+    <h2>The flavour matrix</h2>
+    <p class="lead">Ten candidate flavours against daypart fit, the liquid base each needs, bitterness-masking power (1–5, higher is better at hiding caffeine/EAA/magnesium notes), pH behaviour, sourcing and the specific red flags. The three spec'd flavours are highlighted.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Flavour</th><th>Daypart</th><th>Base</th><th>Masking</th><th>pH</th><th>Sourcing</th><th>Red flag</th></tr>
+        </thead>
+        <tbody>
+          <tr class="spec"><td><span class="flav">Coconut + Lime</span> <span class="pill-mini">spec</span></td><td>PRIME</td><td>Diluted coconut water + lime, still</td><td class="pow pow-5">5</td><td>Lime pulls the low-acid coconut base down to a safer range</td><td>Easy</td><td>Coconut is low-acid — validate final pH + preservative combo</td></tr>
+          <tr class="spec"><td><span class="flav">Mango + Passionfruit</span> <span class="pill-mini">spec</span></td><td>DRIVE</td><td>Citrus-tropical, still</td><td class="pow pow-5">5</td><td>Naturally low — good for preservation &amp; masking</td><td>Moderate–hard (passionfruit)</td><td>None specific</td></tr>
+          <tr class="spec"><td><span class="flav">Blackcurrant + Lavender</span> <span class="pill-mini">spec</span></td><td>SETTLE</td><td>Berry base, still</td><td class="pow pow-4">4</td><td>Naturally acidic (~3.0–3.4)</td><td>Easy (aroma-grade lavender)</td><td>Lavender dose vs. medicinal line; tannin × magnesium untested</td></tr>
+          <tr><td><span class="flav">Passion Fruit + Ginger</span></td><td>DRIVE</td><td>Citrus-tropical, still</td><td class="pow pow-5">5</td><td>Naturally low (~2.8–3.2)</td><td>Harder/costlier</td><td>None specific</td></tr>
+          <tr><td><span class="flav">Mango + Lime</span></td><td>DRIVE / PRIME</td><td>Citrus-tropical, still</td><td class="pow pow-5">5</td><td>Low, from lime</td><td>Easy</td><td>None specific</td></tr>
+          <tr><td><span class="flav">Pineapple + Ginger</span></td><td>DRIVE</td><td>Tropical + spice, still</td><td class="pow pow-4">4</td><td>Moderate-acid</td><td>Easy</td><td>Use pineapple <em>flavour</em>, not real fruit (bromelain × EAAs)</td></tr>
+          <tr><td><span class="flav">Mango + Pineapple</span></td><td>DRIVE</td><td>Tropical fruit-touched water, still</td><td class="pow pow-3">3</td><td>Moderate-acid, needs added citric</td><td>Moderate</td><td>Bromelain flag if real pineapple used</td></tr>
+          <tr><td><span class="flav">Coconut + Mango</span></td><td>PRIME-adjacent</td><td>Diluted coconut water, still</td><td class="pow pow-3">3</td><td>Low-acid (&gt;4.6) — needs acidifying</td><td>Moderate</td><td>Coconut shelf-stability hard case</td></tr>
+          <tr><td><span class="flav">Matcha · Jasmine · Yuzu</span></td><td>Asian line (TBD)</td><td>Tea base, needs acidifying</td><td class="pow pow-3">2–3</td><td>Near-neutral unless yuzu/citric added</td><td>Moderate (yuzu costlier)</td><td>Matcha's own bitterness + caffeine complicate the dose math</td></tr>
+          <tr><td><span class="flav">Lychee + Rose</span></td><td>Botanical / SETTLE-adjacent</td><td>Low-acid floral, still</td><td class="pow pow-2">2</td><td>Near-neutral — needs acidifying</td><td>Lychee flavour has stability challenges</td><td>Weakest masking — not for a heavily-dosed active SKU</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><b>How to read masking power:</b> the spec'd DRIVE and PRIME flavours score 5 because citrus acid + pungency genuinely suppress the bitterness of a 6 g EAA / caffeine load — the flavour choice is doing formulation work, not just branding. Lychee + Rose scores 2, so it's a poor carrier for a bitter active dose however nice it sounds. Exotic-sourcing judgments (yuzu, lychee, passionfruit) are flavour-industry inference, not directly cited.</div>
+  </div>
+</section>
+
+<!-- BASES -->
+<section>
+  <div class="wrap">
+    <h2>Liquid bases, ranked by how hard they are to ship shelf-stable</h2>
+    <p class="lead">Because the actives stay dry in the cap, only the <em>liquid</em> needs to survive on a shelf — but that's still where the manufacturing risk lives.</p>
+    <div class="grid2">
+      <div class="card"><h3>Flavoured water <span class="verdict v-yes">easiest</span></h3><p>Acidify to pH ~3.0–3.8, hot-fill or tunnel-pasteurise, dual preservative (potassium sorbate + sodium benzoate, each at lower ppm together than alone). Cheapest, most co-packer-proven route.</p></div>
+      <div class="card"><h3>Citrus-tropical water <span class="verdict v-yes">easy</span></h3><p>Naturally low pH does the preservation and the masking work at once — this is why the spec'd DRIVE/PRIME directions are the safe ones. Formulate from natural flavour compounds, not real juice, for batch consistency.</p></div>
+      <div class="card"><h3>Berry base <span class="verdict v-yes">good</span></h3><p>Naturally acidic (~3.0–3.4), preservation-friendly and a strong physical masker for SETTLE's magnesium. The open question is the tannin × magnesium-glycinate interaction — bench-test it.</p></div>
+      <div class="card"><h3>Tea (matcha/jasmine) <span class="verdict v-care">care</span></h3><p>Near-neutral, so it needs deliberate acidifying, and matcha brings its own bitterness and caffeine to account for. Workable for an Asian line, but not a free flavour swap.</p></div>
+      <div class="card"><h3>Diluted coconut water <span class="verdict v-care">hard</span></h3><p>Low-acid (pH &gt;4.6) — the botulism-risk zone for ambient shelf products. Needs acidify-to-4.5 + validated thermal/preservative protocol signed off by a food-safety lab. Lime (as in the spec'd PRIME) helps.</p></div>
+      <div class="card"><h3>Sparkling <span class="verdict v-no">ruled out</span></h3><p>Incompatible with shake-to-mix (see the geyser flag). Still bases only.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHEMISTRY -->
+<section class="alt">
+  <div class="wrap">
+    <h2>Mix-moment chemistry, confirmed</h2>
+    <p class="lead">What actually happens in the ten seconds between pop and drink.</p>
+    <div class="sci">
+      <div class="row"><h3>Creatine dissolution</h3><p><span class="num">3 g won't fully dissolve in ~100 ml</span> (solubility ~13.3 g/L → needs ~225 ml). Micronised creatine + co-processed carrier dissolves within ~10 s of shaking with no visible grit — the realistic result is a slightly <b>cloudy, milky pour, not a clear one</b>. Spec the visual around that.</p></div>
+      <div class="row"><h3>Creatine pH stability</h3><p>Degradation to creatinine is <span class="num">21% over 3 days at pH 3.5</span> — which back-calculates to <b>&lt;0.01% over a 30–60 min drink window</b>. Citrus-acidic bases are fine on the timescale that matters; only a vial left mixed for days is a problem, which the format prevents.</p></div>
+      <div class="row"><h3>EAA bitterness (DRIVE)</h3><p>Leucine/isoleucine/valine are inherently bitter, leucine most of all. The proven masker is <b>citrus acid + glycine</b> — which is exactly why DRIVE's citrus-tropical direction is load-bearing, not stylistic. Thaumatin stacks on top.</p></div>
+      <div class="row"><h3>Magnesium glycinate (SETTLE)</h3><p>Tastes metallic/alkaline. Countered by acidic mixers (the berry base), cold serving, and glycine — which is <b>already in SETTLE</b> and does double duty: it's ~70% as sweet as sugar and actively masks bitterness and metallic notes.</p></div>
+      <div class="row"><h3>Caffeine (PRIME/DRIVE)</h3><p>50–75 mg in ~80 ml is several multiples over the bitterness threshold, so it needs active masking. Note: sugar suppresses caffeine bitterness better than non-caloric sweeteners — a real tension with the sugar-free positioning, which is where thaumatin earns its place.</p></div>
+      <div class="row"><h3>Electrolyte placement</h3><p>Put Na/K/Mg in the <b>dry cap</b>, not the liquid — matches the "actives stay dry" philosophy, keeps the liquid's pH/preservative chemistry simple, and use <b>citrate forms</b> throughout (milder, less bitter than chloride, and a natural acidulant).</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">MOSE<span class="dot"></span></div>
+    <p style="margin:.4rem 0 0;color:#c9cede">Formulation &amp; flavour compatibility · a build-together working document.</p>
+    <p class="fine">Concept-stage research to inform formulation decisions — not a finished specification, and not regulatory or medical advice. Every formula, dose, base and label is subject to co-manufacturer confirmation and Ministry of Health notification in each launch market. Melatonin excluded and lavender kept to aroma level for EU/Slovenia compliance. Sources below; Perplexity was unavailable for this pass, so findings are drawn from the cited food-chemistry and EU additive-law sources via web search.</p>
+    <div class="fine" style="margin-top:1.4rem"><b style="color:#fff">Sources</b></div>
+    <div class="src" style="margin-top:.6rem">
+      <a href="https://patents.google.com/patent/US20020151593A1/en">Water-soluble creatine monohydrate formulations (Weider Nutrition patent)</a>
+      <a href="https://www.bubsnaturals.com/blogs/creatine-and-fitness/creatine-monohydrates-ph-is-it-acidic-and-why-it-matters">BUBS Naturals — creatine pH</a>
+      <a href="https://cymbiotika.com/blogs/fitness-and-recovery/the-ph-of-power-is-creatine-monohydrate-acidic">Cymbiotika — creatine pH</a>
+      <a href="https://www.mdpi.com/2072-6643/11/9/2050">MDPI — Taste Perception of Nutrients (bitterness)</a>
+      <a href="https://compoundsolutions.com/ingredients/amino9/">Compound Solutions — Amino9 EAA masking</a>
+      <a href="https://nutraceuticalbusinessreview.com/overcoming-bitterness-in-bcaa-based-nutrition-products--127956">Nutraceutical Business Review — BCAA bitterness</a>
+      <a href="https://cymbiotika.com/blogs/brain-health/does-magnesium-glycinate-have-a-taste-what-to-know">Cymbiotika — magnesium glycinate taste</a>
+      <a href="https://pubmed.ncbi.nlm.nih.gov/7812797/">PubMed — sweeteners &amp; bitter taste</a>
+      <a href="https://www.chemistryworld.com/news/sugar-supresses-as-well-as-masks-caffeines-bitter-flavour/8820.article">Chemistry World — sugar &amp; caffeine bitterness</a>
+      <a href="https://www.geosc.com/Assets/Files/Products-Docs/Glycine-Product-Docs/GEO-Glycine-Brochure.pdf">GEO — glycine flavour masking</a>
+      <a href="https://www.precisionhydration.com/performance-advice/hydration/precision-hydration-packaging/">Precision Hydration — sodium concentration</a>
+      <a href="https://www.bubsnaturals.com/blogs/electrolytes-hydration/how-much-salt-should-be-in-your-electrolyte-drink">BUBS Naturals — salt dosing</a>
+      <a href="https://www.skratchlabs.com/blogs/science-products/why-we-use-sodium-citrate-vs-sodium-chloride">Skratch Labs — sodium citrate vs chloride</a>
+      <a href="https://basekim.com/en/potassium-chloride-vs-potassium-citrate/">basekim — potassium chloride vs citrate</a>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11533382/">EFSA — steviol glycosides re-authorisation</a>
+      <a href="https://www.sweeteners.org/wp-content/uploads/2024/08/thaumatin-fact-sheet_2024.pdf">ISA — thaumatin fact sheet</a>
+      <a href="https://www.efsa.europa.eu/en/plain-language-summary/re-evaluation-erythritol-e-968-food-additive">EFSA — erythritol re-evaluation</a>
+      <a href="https://www.mdpi.com/2304-8158/14/16/2810">MDPI — monk fruit EU approval status</a>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8002754/">PMC — bubble nucleation (geyser mechanism)</a>
+      <a href="https://www.sciencedirect.com/science/article/abs/pii/S0273230012001742">ScienceDirect — food vs medicinal product benchmark dose</a>
+      <a href="https://www.researchgate.net/publication/235800652_Coconut_water_preservation_and_processing_A_review">Coconut water preservation review</a>
+      <a href="https://etnafoodsafety.com/blog/how-to-make-your-carbonated-beverage-shelf-stable/">Etna Food Safety — shelf-stable beverages</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

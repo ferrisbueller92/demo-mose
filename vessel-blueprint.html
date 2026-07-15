@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MOSE — Vessel &amp; Stopper Blueprint</title>
+<meta name="description" content="Design + function blueprint for the MOSE drinkable test tube: vessel sizing math, three vessel proposals, three stopper mechanisms, and the Pop·Shake·Pull sequence.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🧪</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14192b; --ink-soft:#5a6178; --paper:#fbfaf6;
+  --blue:#2f6fd6; --blue-ink:#1b4a97;
+  --yellow:#d6a32f; --yellow-hot:#f4b833;
+  --violet:#6b54c7; --teal:#0e6b6b;
+  --mint:#d7f2ec; --peach:#ffe3cf; --lilac:#ece4fb; --sky:#dcebff; --butter:#fff2cc;
+  --line:#d8dbe6; --r:22px;
+  --edge:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Space Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55}
+.mono{font-family:"Space Mono",monospace}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:var(--edge)}
+.kick{font-family:"Space Mono",monospace;text-transform:uppercase;letter-spacing:.28em;font-size:.72rem;color:var(--ink-soft)}
+
+nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(12px);background:rgba(251,250,246,.8);border-bottom:1px solid rgba(20,25,43,.08)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font-weight:700;font-size:1.2rem;display:flex;align-items:center;gap:.4rem}
+.brand .dot{width:.45rem;height:.45rem;border-radius:50%;background:var(--blue)}
+.navlinks{display:flex;gap:1.4rem;font-size:.82rem;color:var(--ink-soft);overflow-x:auto}
+.navlinks a{text-decoration:none;white-space:nowrap}
+.navlinks a:hover{color:var(--ink)}
+
+header.hero{padding:clamp(40px,6vw,72px) 0 clamp(28px,4vw,48px)}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;margin:.6rem 0 .8rem;font-weight:700;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero p.lead{max-width:760px;font-size:1.05rem;color:var(--ink-soft);margin:0}
+.badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem}
+.badge{font-family:"Space Mono",monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;padding:.32rem .7rem;border-radius:100px;border:1px solid var(--line);background:#fff;color:var(--ink-soft)}
+.badge.b{border-color:var(--blue);color:var(--blue-ink);background:var(--sky)}
+
+section{padding:clamp(30px,4.5vw,54px) 0}
+.part{font-family:"Space Mono",monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.22em;color:var(--blue-ink);background:var(--sky);display:inline-block;padding:.3rem .8rem;border-radius:100px;margin-bottom:.9rem}
+h2{font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.12;margin:.2rem 0 .9rem;letter-spacing:-.01em}
+.section-intro{max-width:760px;color:var(--ink-soft);margin:0 0 1.6rem}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,3vw,28px)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:900px){.grid3,.grid2{grid-template-columns:1fr}}
+
+table{width:100%;border-collapse:collapse;font-size:.86rem;margin:1rem 0}
+th{font-family:"Space Mono",monospace;font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;text-align:left;color:var(--ink-soft);border-bottom:2px solid var(--ink);padding:.55rem .6rem}
+td{padding:.6rem;border-bottom:1px solid var(--line);vertical-align:top}
+tr.hit{background:var(--butter)}
+.ok{color:#1c7c46;font-weight:600}.no{color:#c0392b;font-weight:600}.mid{color:#a07407;font-weight:600}
+
+.opt-tag{font-family:"Space Mono",monospace;font-size:.64rem;text-transform:uppercase;letter-spacing:.14em;padding:.22rem .6rem;border-radius:100px}
+.opt-a .opt-tag{background:var(--sky);color:var(--blue-ink)}
+.opt-b .opt-tag{background:var(--butter);color:#7a5c07}
+.opt-c .opt-tag{background:var(--lilac);color:#4a3897}
+.rec{display:inline-block;font-family:"Space Mono",monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;background:var(--ink);color:#fff;padding:.24rem .6rem;border-radius:100px;margin-left:.4rem}
+.card h3{margin:.9rem 0 .3rem;font-size:1.15rem}
+.card p.small,.small{font-size:.88rem;color:var(--ink-soft)}
+.specline{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--ink-soft);margin-top:.7rem;line-height:1.8}
+.specline b{color:var(--ink)}
+
+figure{margin:0}
+figcaption{font-family:"Space Mono",monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);margin-top:.6rem;text-align:center}
+.render{border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+
+.callout{border-left:4px solid var(--blue);background:var(--sky);border-radius:0 var(--r) var(--r) 0;padding:16px 20px;margin:1.2rem 0}
+.callout.warn{border-color:var(--yellow);background:var(--butter)}
+.callout.violet{border-color:var(--violet);background:var(--lilac)}
+.callout .t{font-family:"Space Mono",monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.14em;margin-bottom:.3rem;color:var(--ink-soft)}
+.callout p{margin:.2rem 0;font-size:.92rem}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:1.4rem}
+@media(max-width:900px){.steps{grid-template-columns:1fr}}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.step .n{font-family:"Space Mono",monospace;font-size:.7rem;color:var(--blue-ink);letter-spacing:.16em;text-transform:uppercase}
+.step h3{margin:.35rem 0 .4rem;font-size:1.3rem}
+.step p{font-size:.9rem;color:var(--ink-soft);margin:0}
+.step .feel{margin-top:.7rem;font-family:"Space Mono",monospace;font-size:.7rem;color:var(--ink);background:var(--mint);border-radius:12px;padding:.5rem .7rem}
+
+svg text{font-family:"Space Mono",monospace}
+.dwg{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px}
+
+.decision{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin-bottom:12px}
+.decision .dnum{font-family:"Space Mono",monospace;font-size:.72rem;background:var(--ink);color:#fff;border-radius:100px;padding:.3rem .65rem;flex-shrink:0}
+.decision h3{margin:0 0 .25rem;font-size:1.02rem}
+.decision p{margin:0;font-size:.88rem;color:var(--ink-soft)}
+
+footer{border-top:1px solid var(--line);padding:34px 0 50px;margin-top:20px}
+footer p{font-size:.8rem;color:var(--ink-soft);max-width:840px}
+.updated{font-family:"Space Mono",monospace;font-size:.68rem;color:var(--ink-soft);letter-spacing:.08em}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html" style="text-decoration:none"><span class="dot"></span>MOSE</a>
+    <div class="navlinks mono">
+      <a href="#look">The look</a>
+      <a href="#math">Sizing math</a>
+      <a href="#vessel">Vessel</a>
+      <a href="#stopper">Stopper</a>
+      <a href="#ritual">Pop·Shake·Pull</a>
+      <a href="#spec">Function spec</a>
+      <a href="#decisions">Decisions</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="kick">Design + function working blueprint · concept stage</span>
+    <h1>The vessel &amp; the stopper.<br><em>Pop. Shake. Pull.</em> — engineered.</h1>
+    <p class="lead">William's brief: a premium-but-affordable single-serve functional drink that reads as a test tube with a Voss-water calm — where the stopper is the star. This document proposes what it looks like <b>and</b> how it works, with the sizing math that decides how big the tube has to be.</p>
+    <div class="badges">
+      <span class="badge b">3 vessel options</span>
+      <span class="badge b">3 stopper mechanisms</span>
+      <span class="badge">PRIME · DRIVE · SETTLE</span>
+      <span class="badge">companion to the formulation matrix</span>
+    </div>
+  </div>
+</header>
+
+<section id="look">
+  <div class="wrap">
+    <span class="part">Part 00 · The look</span>
+    <h2>Visual direction — rendered.</h2>
+    <p class="section-intro">Concept renders of Option A + stopper S1, built straight from William's brief. The warm-stone shot is now the landing-page hero; the ice study is the alternate direction if we go colder and more clinical.</p>
+    <div class="grid3">
+      <figure>
+        <div class="render"><img src="assets/hero-tube-v2.jpg" alt="Chosen hero render — MOSE PRIME tube on warm stone, PRESS dome cap with visible powder chamber" loading="lazy"></div>
+        <figcaption>Chosen hero · warm stone · PRESS dome</figcaption>
+      </figure>
+      <figure>
+        <div class="render"><img src="assets/render-alt-ice.jpg" alt="Alternate render — MOSE PRIME tube in a cold ice-blue studio" loading="lazy"></div>
+        <figcaption>Alternate · ice study · colder read</figcaption>
+      </figure>
+      <figure>
+        <div class="render"><img src="assets/system-v2.jpg" alt="The three-tube system — PRIME, DRIVE, SETTLE on a dawn-to-dusk gradient" loading="lazy"></div>
+        <figcaption>The system · dawn → midday → dusk</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="math">
+  <div class="wrap">
+    <span class="part">Part 01 · The constraint</span>
+    <h2>Why a normal test tube is too small — the water math.</h2>
+    <p class="section-intro">William's instinct is right: there's a minimum amount of water. It isn't a styling choice — it's chemistry. Creatine monohydrate dissolves at roughly <b>13&nbsp;g per litre at ~20&nbsp;°C</b> (less when chilled). The 3&nbsp;g dose in the cap therefore needs about <b>230&nbsp;ml of room-temperature liquid just to fully dissolve</b> — and more like 300&nbsp;ml straight from the fridge.</p>
+
+    <table>
+      <tr><th>Vessel</th><th>Dimensions</th><th>Holds</th><th>3 g creatine dissolves?</th><th>Verdict</th></tr>
+      <tr><td>Classic lab test tube</td><td>Ø16 × 150 mm</td><td>~20 ml</td><td class="no">No — ~8% of the water needed</td><td class="no">Prop, not a product</td></tr>
+      <tr><td>Large lab test tube</td><td>Ø25 × 200 mm</td><td>~70 ml</td><td class="no">No — under a third</td><td class="no">Still a shot, not a drink</td></tr>
+      <tr><td>Current formulation working doc</td><td>60–100 ml vial</td><td>60–100 ml</td><td class="no">No — creatine would sit as grit</td><td class="no">Superseded by this blueprint</td></tr>
+      <tr class="hit"><td><b>MOSE tube (proposed)</b></td><td>Ø50 × 240 mm</td><td><b>300 ml fill</b></td><td class="ok">Yes — with the shake step</td><td class="ok">Reads as test tube, works as a drink</td></tr>
+    </table>
+
+    <div class="callout">
+      <div class="t">Bonus — the bigger tube fixes half of decision D1</div>
+      <p>The formulation matrix flagged PRIME's ~400 mg sodium in a 60–100 ml vial as 4.5–10× the concentration of a normal sports drink — harsh-metallic territory. In a 300 ml fill the same dose lands at ~133 mg/100 ml: still electrolyte-forward, but inside maskable range. The vessel size and the flavour problem are the same decision.</p>
+    </div>
+    <div class="callout warn">
+      <div class="t">Honest limit</div>
+      <p>Chilled water dissolves creatine slower and less completely — that's exactly why <b>Shake</b> is a load-bearing step of the ritual, why the powder should be micronised, and why the label says drink promptly. The suspension is drinkable before it is fully dissolved; bioavailability is unaffected.</p>
+    </div>
+  </div>
+</section>
+
+<section id="vessel" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="wrap">
+    <span class="part">Part 02 · The vessel</span>
+    <h2>Three ways to build a drinkable test tube.</h2>
+    <p class="section-intro">All three keep the Voss DNA — a calm, unornamented clear cylinder where the structure IS the brand — and all three stand upright on a flat base. They differ in how hard they lean into the lab silhouette versus shelf practicality.</p>
+
+    <div class="grid3">
+      <article class="card opt-a">
+        <span class="opt-tag">Option A</span><span class="rec">Recommended</span>
+        <div class="dwg" style="margin-top:.9rem">
+          <svg viewBox="0 0 200 300" role="img" aria-label="Option A dimensioned drawing — Ø50 by 240 millimetre tube">
+            <rect x="72" y="30" width="56" height="240" rx="14" fill="#dcebff" stroke="#14192b" stroke-width="2"/>
+            <rect x="72" y="110" width="56" height="160" rx="14" fill="#2f6fd6" opacity=".55"/>
+            <rect x="66" y="14" width="68" height="34" rx="8" fill="#fff" stroke="#14192b" stroke-width="2"/>
+            <rect x="80" y="22" width="40" height="18" fill="#fbfaf6" stroke="#5a6178" stroke-dasharray="3 2"/>
+            <line x1="150" y1="30" x2="150" y2="270" stroke="#5a6178" stroke-width="1"/>
+            <line x1="145" y1="30" x2="155" y2="30" stroke="#5a6178"/><line x1="145" y1="270" x2="155" y2="270" stroke="#5a6178"/>
+            <text x="158" y="155" font-size="11" fill="#5a6178">240</text>
+            <line x1="72" y1="285" x2="128" y2="285" stroke="#5a6178" stroke-width="1"/>
+            <text x="88" y="298" font-size="11" fill="#5a6178">Ø50</text>
+            <text x="30" y="128" font-size="10" fill="#5a6178">fill</text>
+            <text x="18" y="142" font-size="10" fill="#5a6178">300ml</text>
+          </svg>
+        </div>
+        <h3>The MOSE Tube</h3>
+        <p class="small">The oversized test tube. Unmistakably lab-born, but with real drink volume. Flat "puck" base so it stands anywhere a water bottle stands; hand feel like a slim smoothie bottle.</p>
+        <div class="specline">
+          Ø <b>50 mm</b> × H <b>240 mm</b><br>
+          Fill <b>300 ml</b> · headspace ~<b>18%</b> (the shake needs it)<br>
+          Fits a car cup holder: <b>yes</b> · fridge door: <b>yes</b>
+        </div>
+      </article>
+
+      <article class="card opt-b">
+        <span class="opt-tag">Option B</span>
+        <div class="dwg" style="margin-top:.9rem">
+          <svg viewBox="0 0 200 300" role="img" aria-label="Option B dimensioned drawing — Ø42 by 300 millimetre slim tube">
+            <rect x="78" y="10" width="44" height="278" rx="12" fill="#fff2cc" stroke="#14192b" stroke-width="2"/>
+            <rect x="78" y="100" width="44" height="188" rx="12" fill="#f4b833" opacity=".6"/>
+            <rect x="72" y="0" width="56" height="28" rx="7" fill="#fff" stroke="#14192b" stroke-width="2"/>
+            <line x1="146" y1="10" x2="146" y2="288" stroke="#5a6178" stroke-width="1"/>
+            <text x="152" y="155" font-size="11" fill="#5a6178">300</text>
+            <line x1="78" y1="296" x2="122" y2="296" stroke="#5a6178" stroke-width="1"/>
+            <text x="86" y="292" font-size="11" fill="#5a6178">Ø42</text>
+          </svg>
+        </div>
+        <h3>The Slim Flute</h3>
+        <p class="small">Maximum drama. The tallest, thinnest silhouette that still carries the dose — pure lab glassware on a shelf of stubby bottles. The trade: it's taller than most fridge-door shelves and tips easier.</p>
+        <div class="specline">
+          Ø <b>42 mm</b> × H <b>300 mm</b><br>
+          Fill <b>280 ml</b> · headspace ~<b>17%</b><br>
+          Fits a car cup holder: <b>loose</b> · fridge door: <b>most don't fit</b>
+        </div>
+      </article>
+
+      <article class="card opt-c">
+        <span class="opt-tag">Option C</span>
+        <div class="dwg" style="margin-top:.9rem">
+          <svg viewBox="0 0 200 300" role="img" aria-label="Option C dimensioned drawing — Ø58 by 200 millimetre short cylinder">
+            <rect x="66" y="70" width="68" height="216" rx="16" fill="#ece4fb" stroke="#14192b" stroke-width="2"/>
+            <rect x="66" y="130" width="68" height="156" rx="16" fill="#6b54c7" opacity=".5"/>
+            <rect x="60" y="52" width="80" height="40" rx="9" fill="#fff" stroke="#14192b" stroke-width="2"/>
+            <line x1="156" y1="70" x2="156" y2="286" stroke="#5a6178" stroke-width="1"/>
+            <text x="162" y="182" font-size="11" fill="#5a6178">200</text>
+            <line x1="66" y1="296" x2="134" y2="296" stroke="#5a6178" stroke-width="1"/>
+            <text x="82" y="294" font-size="11" fill="#5a6178">Ø58</text>
+          </svg>
+        </div>
+        <h3>The Voss Hybrid</h3>
+        <p class="small">Voss proportions with a test-tube shoulder. The most stable, most familiar-in-hand option and the friendliest for filling lines — but the least "test tube" of the three. A safe fallback, not the statement.</p>
+        <div class="specline">
+          Ø <b>58 mm</b> × H <b>200 mm</b><br>
+          Fill <b>330 ml</b> · headspace ~<b>15%</b><br>
+          Fits a car cup holder: <b>yes</b> · fridge door: <b>yes</b>
+        </div>
+      </article>
+    </div>
+
+    <table>
+      <tr><th></th><th>A · MOSE Tube</th><th>B · Slim Flute</th><th>C · Voss Hybrid</th></tr>
+      <tr><td>Reads as test tube</td><td class="ok">Strong</td><td class="ok">Strongest</td><td class="mid">Soft</td></tr>
+      <tr><td>Stability / knock-over risk</td><td class="ok">Good</td><td class="no">Tippy</td><td class="ok">Best</td></tr>
+      <tr><td>Fridge + cup holder fit</td><td class="ok">Yes</td><td class="no">Marginal</td><td class="ok">Yes</td></tr>
+      <tr><td>Standard co-packer tooling</td><td class="mid">Near-standard</td><td class="no">Custom</td><td class="ok">Standard</td></tr>
+      <tr><td>Shelf presence per $</td><td class="ok">High</td><td class="ok">High</td><td class="mid">Medium</td></tr>
+    </table>
+
+    <div class="callout violet">
+      <div class="t">The rack — the subscription made physical</div>
+      <p>Test tubes come in racks. So does MOSE: a 7-slot lab-style rack as the weekly unit (or 21 for the full AM/midday/PM system). It solves multi-pack shipping, looks like furniture on a kitchen bench, and turns re-ordering into refilling. Material v1: birch ply or recycled PP, [TBD] with the co-packer.</p>
+    </div>
+
+    <div class="callout warn">
+      <div class="t">Material honesty — premium feel, affordable unit cost</div>
+      <p>V1 ships in heavy-wall clear <b>PET</b> (glass-look wall thickness, recyclable, light to ship, safe in gyms) with the option of a <b>glass</b> limited run later. Voss made the same call in reverse — their plastic line outsells the glass icon. Unit economics: [TBD] pending co-packer quotes.</p>
+    </div>
+  </div>
+</section>
+
+<section id="stopper">
+  <div class="wrap">
+    <span class="part">Part 03 · The stopper — the hero</span>
+    <h2>The active cap: a dose chamber you can see.</h2>
+    <p class="section-intro">Everything that makes MOSE different lives in the stopper: 3&nbsp;g of dry actives sealed in a clear chamber <em>above</em> the liquid — 100% potent at the moment you drink, never slowly degrading in solution. Three mechanism concepts, one recommended.</p>
+
+    <div class="grid2" style="align-items:start">
+      <div class="dwg">
+        <svg viewBox="0 0 340 300" role="img" aria-label="Cross-section of the recommended press-pop dome cap">
+          <text x="18" y="24" font-size="11" fill="#5a6178">CROSS-SECTION · S1 PRESS-POP DOME</text>
+          <path d="M120 60 q50 -34 100 0 l0 16 -100 0 z" fill="#fff" stroke="#14192b" stroke-width="2"/>
+          <rect x="112" y="76" width="116" height="10" fill="#14192b"/>
+          <rect x="124" y="86" width="92" height="52" fill="#dcebff" stroke="#14192b" stroke-width="2"/>
+          <circle cx="150" cy="108" r="2.4" fill="#5a6178"/><circle cx="164" cy="116" r="2.4" fill="#5a6178"/><circle cx="180" cy="106" r="2.4" fill="#5a6178"/><circle cx="194" cy="114" r="2.4" fill="#5a6178"/><circle cx="172" cy="126" r="2.4" fill="#5a6178"/><circle cx="188" cy="124" r="2.4" fill="#5a6178"/><circle cx="156" cy="128" r="2.4" fill="#5a6178"/>
+          <line x1="124" y1="138" x2="216" y2="138" stroke="#c0392b" stroke-width="3" stroke-dasharray="6 3"/>
+          <rect x="118" y="142" width="104" height="14" fill="#fff" stroke="#14192b" stroke-width="2"/>
+          <ellipse cx="170" cy="163" rx="58" ry="7" fill="none" stroke="#0e6b6b" stroke-width="3"/>
+          <path d="M108 156 l0 120 q0 14 14 14 l96 0 q14 0 14 -14 l0 -120" fill="#dcebff" stroke="#14192b" stroke-width="2" opacity=".85"/>
+          <rect x="112" y="205" width="116" height="82" fill="#2f6fd6" opacity=".45"/>
+          <text x="238" y="52" font-size="10" fill="#5a6178">① dome plunger</text>
+          <line x1="234" y1="49" x2="200" y2="52" stroke="#5a6178"/>
+          <text x="238" y="92" font-size="10" fill="#5a6178">② tamper ring</text>
+          <line x1="234" y1="89" x2="228" y2="82" stroke="#5a6178"/>
+          <text x="238" y="116" font-size="10" fill="#5a6178">③ clear dose</text>
+          <text x="238" y="128" font-size="10" fill="#5a6178">chamber · 3 g dry</text>
+          <line x1="234" y1="115" x2="216" y2="112" stroke="#5a6178"/>
+          <text x="238" y="146" font-size="10" fill="#c0392b">④ foil membrane</text>
+          <line x1="234" y1="143" x2="216" y2="139" stroke="#c0392b"/>
+          <text x="238" y="170" font-size="10" fill="#0e6b6b">⑤ silicone O-ring</text>
+          <line x1="234" y1="167" x2="226" y2="164" stroke="#0e6b6b"/>
+          <text x="20" y="150" font-size="10" fill="#5a6178">⑥ cutter skirt —</text>
+          <text x="20" y="162" font-size="10" fill="#5a6178">press opens the</text>
+          <text x="20" y="174" font-size="10" fill="#5a6178">membrane clean</text>
+          <line x1="88" y1="158" x2="116" y2="150" stroke="#5a6178"/>
+          <text x="20" y="240" font-size="10" fill="#5a6178">liquid · 300 ml</text>
+          <line x1="78" y1="236" x2="110" y2="232" stroke="#5a6178"/>
+        </svg>
+      </div>
+
+      <div>
+        <article class="card opt-a" style="margin-bottom:14px">
+          <span class="opt-tag">S1</span><span class="rec">Recommended</span>
+          <h3>Press-Pop Dome</h3>
+          <p class="small">A soft-touch dome you press with your palm. The press drives a cutter skirt through a foil membrane and the dose drops — with an audible, feelable <b>pop</b>. Pull the whole stopper like a cork (second pop) to drink. This is proven closure tech — the same family as the Vessl closure and Karma Water's push cap — so it's manufacturable at single-serve price points, not a science project.</p>
+        </article>
+        <article class="card opt-b" style="margin-bottom:14px">
+          <span class="opt-tag">S2</span>
+          <h3>Quarter-Twist</h3>
+          <p class="small">Twist the cap 90° to shear the seal and release the dose. Cheapest tooling, most co-packer-familiar — but the brand verb is <em>Pop</em>, and a twist doesn't pop. Keep as the value fallback if S1 unit cost disappoints.</p>
+        </article>
+        <article class="card opt-c">
+          <span class="opt-tag">S3</span>
+          <h3>Piston Cork</h3>
+          <p class="small">A cork-look outer over an internal piston — the most theatrical and the most premium in hand. Highest part count and cost; a v2 / limited-edition candidate once the brand has earned it.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="t">Why the chamber must be clear</div>
+      <p>Seeing the dry powder above the liquid is the entire trust story — "it's 100% potent because it hasn't touched the water yet" — told in one glance, no copy needed. The dome and ring carry the SKU colour (blue / yellow / violet); the chamber stays glass-clear.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ritual" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="wrap">
+    <span class="part">Part 04 · The ritual</span>
+    <h2>Pop. Shake. Pull. — what the hand feels.</h2>
+    <p class="section-intro">Each step has a physical payoff. That's what makes it a ritual instead of an instruction.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="n">Step 1 · thumb or palm</span>
+        <h3>Pop</h3>
+        <p>Press the dome. The cutter opens the membrane and 3&nbsp;g of dry actives cascade visibly into the liquid.</p>
+        <div class="feel">FEEL: a clean click-through, like a pen · HEAR: pop #1</div>
+      </div>
+      <div class="step">
+        <span class="n">Step 2 · 3 seconds</span>
+        <h3>Shake</h3>
+        <p>The headspace is engineered for this — 18% air so the liquid can actually move. The colour blooms as it mixes.</p>
+        <div class="feel">FEEL: liquid weight shifting · SEE: the swirl — the show</div>
+      </div>
+      <div class="step">
+        <span class="n">Step 3 · like a cork</span>
+        <h3>Pull</h3>
+        <p>The whole stopper pulls free against the O-ring. Wide Ø50 mouth — drink it like a drink, not a shot glass.</p>
+        <div class="feel">FEEL: cork resistance then release · HEAR: pop #2</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="spec">
+  <div class="wrap">
+    <span class="part">Part 05 · Function spec</span>
+    <h2>The system, specified.</h2>
+    <table>
+      <tr><th></th><th style="color:#1b4a97">PRIME · AM</th><th style="color:#7a5c07">DRIVE · Midday</th><th style="color:#4a3897">SETTLE · PM</th></tr>
+      <tr><td>Cap actives (dry, 3 g class)</td><td>Creatine + electrolytes</td><td>Creatine + aminos</td><td>Magnesium glycinate + glycine — <b>no creatine, melatonin-free</b></td></tr>
+      <tr><td>Flavour direction</td><td>Coconut &amp; Lime</td><td>Mango &amp; Passionfruit</td><td>Blackcurrant &amp; Berry (lavender aroma-grade only — see D4)</td></tr>
+      <tr><td>Liquid base</td><td>Lightly acidified still water</td><td>Lightly acidified still water</td><td>Berry base, still (masks the magnesium)</td></tr>
+      <tr><td>Cap colour code</td><td>Ice blue ring + dome</td><td>Mango yellow ring + dome</td><td>Violet ring + dome</td></tr>
+    </table>
+
+    <table>
+      <tr><th>Pack function</th><th>Spec</th></tr>
+      <tr><td>Dry-chamber seal</td><td>Foil membrane + desiccant-grade chamber; actives never contact liquid until Pop. This is the potency claim, physically enforced.</td></tr>
+      <tr><td>Tamper evidence</td><td>Break-away ring under the dome — the Pop is also the tamper check (can't have happened twice).</td></tr>
+      <tr><td>Seal integrity</td><td>Food-grade silicone O-ring on the stopper skirt; leak-proof inverted and in a gym bag.</td></tr>
+      <tr><td>Materials</td><td>Tube: heavy-wall clear PET (v1) / glass (later run). Cap body: PP. Membrane: foil laminate. All food-contact grades, all kerbside-recyclable once separated.</td></tr>
+      <tr><td>Fill process</td><td>Acidified still base, hot-fill or tunnel-pasteurised per the formulation matrix; dry actives filled and sealed into caps on a separate dry line, married at capping.</td></tr>
+      <tr><td>Label</td><td>Direct print or ultra-clear PS label, vertical type — the liquid IS the label. "Last thing you read before you pop" microcopy on the dome.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="decisions" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="wrap">
+    <span class="part">Part 06 · For William</span>
+    <h2>Five decisions to lock.</h2>
+    <div class="decision"><span class="dnum">D1</span><div><h3>Vessel: A, B or C?</h3><p>Recommendation is A (Ø50 × 240, 300 ml). B is the drama pick with real shelf-life friction; C is the safe fallback.</p></div></div>
+    <div class="decision"><span class="dnum">D2</span><div><h3>Stopper: confirm S1 Press-Pop Dome</h3><p>It's the only mechanism where both brand pops (open + pull) are real. S2 saves money but loses the verb.</p></div></div>
+    <div class="decision"><span class="dnum">D3</span><div><h3>PET v1 or hold for glass?</h3><p>PET gets premium-look at affordable unit cost and survives gym bags. Glass becomes the limited-run flex later.</p></div></div>
+    <div class="decision"><span class="dnum">D4</span><div><h3>SETTLE flavour naming</h3><p>Your latest note says "Blackcurrant, Berry &amp; Lavender". The formulation matrix locked lavender to aroma-grade only (medicinal-line risk). Proposal: sell it as <b>Blackcurrant &amp; Berry</b>, keep lavender as an aroma note, not a named ingredient.</p></div></div>
+    <div class="decision"><span class="dnum">D5</span><div><h3>PRIME sodium (carried from formulation matrix)</h3><p>The 300 ml vessel softens the concentration problem but doesn't close it — still choose: lower the target, switch to sodium citrate, or own the electrolyte-forward taste.</p></div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Concept-stage design document — not a finished engineering specification. All dimensions, materials, mechanisms and costs are proposals subject to closure-supplier and co-packer confirmation. Companion documents: the <a href="formulation-matrix.html">formulation matrix</a> (chemistry + flavour decisions) and the <a href="index.html">MOSE landing page</a>.</p>
+    <p class="updated">Last updated: 2026-07-15 18:40 AEST · MOSE vessel &amp; stopper blueprint v1</p>
+  </div>
+</footer>
+
+</body>
+</html>
